@@ -2,19 +2,19 @@
 
 #include "Gesture/GestureDetector.hpp"
 #include "Gesture/SampleGestureHandler.hpp"
+#include "Led/LedController.hpp"
 
 GestureDetector gestureDetector;
+LedController ledController;
 std::shared_ptr<SampleGestureHandler> handler;
 
 void setup() {
     handler = std::make_shared<SampleGestureHandler>();
-
     if (gestureDetector.init()) {
         Serial.println("Please input your gestures:\n");
     } else {
         Serial.println("GestureDetector initialization failed");
     }
-
     // ハンドラーの設定（依存性の注入）
     gestureDetector.setGestureHandler(handler);
 }
@@ -22,4 +22,10 @@ void setup() {
 void loop() {
     // ジェスチャー処理の実行
     gestureDetector.processGestures();
+
+    // ledController.waveEffect(CRGB::Purple, 50, 20);
+    // ledController.dotLineFlow(CRGB::Blue, 80);
+    // ledController.rainbowFlow(30);
+    ledController.multiTrailFlow(CRGB::Green, 60, 5, 4, 100);
+    // ledController.fireEffect(100);
 }
