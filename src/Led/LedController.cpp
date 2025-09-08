@@ -8,9 +8,8 @@ void LedController::setColor(CRGB color) {
 }
 
 void LedController::relax() {
-    CRGB color = CRGB::GreenYellow;
     if (lastMode != LedMode::RELAX) lastMode = LedMode::RELAX;
-    setColor(color);
+    setColor(CRGB::GreenYellow);
 }
 
 void LedController::rainbowFlow(int speed) {
@@ -109,7 +108,7 @@ void LedController::update() {
             relax();
             break;
         case LedMode::RAINBOW_FLOW:
-            rainbowFlow(0);  // delay無し
+            rainbowFlow(0);
             break;
         case LedMode::MULTI_TRAIL_FLOW:
             multiTrailFlow(CRGB::Purple, 0);
@@ -128,19 +127,17 @@ void LedController::update() {
 void LedController::toggleLed() {
     if (isLedOn) {
         turnOffLed();
-        isLedOn = false;
     } else {
         // 前回のモードを復元（OFFの場合はRELAXにデフォルト）
         if (lastMode == LedMode::OFF) {
             lastMode = LedMode::RELAX;
         }
-        isLedOn = true;
         lastUpdate = 0;  // 即座に更新
     }
+    isLedOn = !isLedOn;
 }
 
 LedMode LedController::getModeAt(int direction) const {
-    // アクティブなモード数を自動計算（OFF除く）
     const int numActiveModes = static_cast<int>(LedMode::LAST_ACTIVE_MODE) + 1;
 
     int currentIndex = static_cast<int>(lastMode);

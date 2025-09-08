@@ -34,4 +34,3 @@ void HaloSense::onAntiClockwise() {
 }
 
 void HaloSense::onWave() { Serial.println("onWave: Do noting"); }
-

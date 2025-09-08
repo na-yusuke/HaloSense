@@ -19,7 +19,7 @@ enum class LedMode {
     FIRE_EFFECT = 3,
     WAVE_EFFECT = 4,
     OFF = 5,
-    
+
     // 最後のアクティブモード（OFFを除く）
     LAST_ACTIVE_MODE = WAVE_EFFECT
 };
