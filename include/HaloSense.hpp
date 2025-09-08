@@ -17,13 +17,10 @@ class HaloSense : public IGestureHandler {
     void onAntiClockwise() override;
     void onWave() override;
     
-    void updateLed() { if (isLedOn) ledController.update(); }
+    void updateLed() { ledController.update(); }
 
    private:
-    void switchLed();
-
     LedController ledController;
-    bool isLedOn = false;
 };
 
 #endif  // HALO_SENSE_HPP

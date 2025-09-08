@@ -26,28 +26,6 @@ void LedController::rainbowFlow(int speed) {
     delay(speed);
 }
 
-void LedController::smoothFlow(CRGB color, int speed, int trailLength) {
-    if (lastMode != LedMode::SMOOTH_FLOW) lastMode = LedMode::SMOOTH_FLOW;
-
-    static int head = 0;
-    // 尾を徐々に暗くする
-    for (int i = 0; i < LED_COUNT; i++) {
-        leds[i].fadeToBlackBy(20);
-    }
-
-    // 新しい頭部を描画
-    for (int i = 0; i < trailLength; i++) {
-        int pos = (head - i + LED_COUNT) % LED_COUNT;
-        float brightness = (float)(trailLength - i) / trailLength;
-        leds[pos] = CRGB(color.r * brightness, color.g * brightness,
-                         color.b * brightness);
-    }
-
-    FastLED.show();
-    head = (head + 1) % LED_COUNT;
-    delay(speed);
-}
-
 void LedController::multiTrailFlow(CRGB color, int speed, int trailLength,
                                    int numTrails, int spacing) {
     if (lastMode != LedMode::MULTI_TRAIL_FLOW)
@@ -122,7 +100,8 @@ void LedController::switchToMode(LedMode mode) {
 }
 
 void LedController::update() {
-    if (millis() - lastUpdate < 50) return;  // 50ms間隔
+    if (!isLedOn || millis() - lastUpdate < LED_UPDATE_INTERVAL_MS)
+        return;  // LED OFF時は更新しない
     lastUpdate = millis();
 
     switch (lastMode) {
@@ -131,9 +110,6 @@ void LedController::update() {
             break;
         case LedMode::RAINBOW_FLOW:
             rainbowFlow(0);  // delay無し
-            break;
-        case LedMode::SMOOTH_FLOW:
-            smoothFlow(CRGB::Green, 0);
             break;
         case LedMode::MULTI_TRAIL_FLOW:
             multiTrailFlow(CRGB::Purple, 0);
@@ -149,11 +125,29 @@ void LedController::update() {
     }
 }
 
+void LedController::toggleLed() {
+    if (isLedOn) {
+        turnOffLed();
+        isLedOn = false;
+    } else {
+        // 前回のモードを復元（OFFの場合はRELAXにデフォルト）
+        if (lastMode == LedMode::OFF) {
+            lastMode = LedMode::RELAX;
+        }
+        isLedOn = true;
+        lastUpdate = 0;  // 即座に更新
+    }
+}
+
 LedMode LedController::getModeAt(int direction) const {
-    const LedMode modes[] = {LedMode::RELAX,       LedMode::RAINBOW_FLOW,
-                             LedMode::SMOOTH_FLOW, LedMode::MULTI_TRAIL_FLOW,
-                             LedMode::FIRE_EFFECT, LedMode::WAVE_EFFECT};
-    const int numModes = sizeof(modes) / sizeof(modes[0]);
-    int newIndex = ((int)lastMode + direction + numModes) % numModes;
-    return modes[newIndex];
+    // アクティブなモード数を自動計算（OFF除く）
+    const int numActiveModes = static_cast<int>(LedMode::LAST_ACTIVE_MODE) + 1;
+
+    int currentIndex = static_cast<int>(lastMode);
+    if (lastMode == LedMode::OFF) {
+        currentIndex = 0;  // RELAX
+    }
+
+    int newIndex = (currentIndex + direction + numActiveModes) % numActiveModes;
+    return static_cast<LedMode>(newIndex);
 }

@@ -21,8 +21,8 @@ void HaloSense::onRight() {
 }
 
 void HaloSense::onForward() {
-    Serial.println("onForward: Switch LED");
-    switchLed();
+    Serial.println("onForward: Toggle LED");
+    ledController.toggleLed();
 }
 
 void HaloSense::onBackward() { Serial.println("onBackward: Do noting"); }
@@ -35,12 +35,3 @@ void HaloSense::onAntiClockwise() {
 
 void HaloSense::onWave() { Serial.println("onWave: Do noting"); }
 
-void HaloSense::switchLed() {
-    if (isLedOn) {
-        ledController.turnOffLed();
-        updateLed();
-    } else {
-        ledController.switchToMode(ledController.getLastMode());
-    }
-    isLedOn = !isLedOn;  // 状態を反転
-}

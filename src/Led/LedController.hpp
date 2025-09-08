@@ -9,14 +9,19 @@
 #define BRIGHTNESS 10
 #define COLOR_ORDER GRB
 
+// LED更新間隔（ミリ秒）
+#define LED_UPDATE_INTERVAL_MS 50
+
 enum class LedMode {
-    RELAX,
-    RAINBOW_FLOW,
-    SMOOTH_FLOW,
-    MULTI_TRAIL_FLOW,
-    FIRE_EFFECT,
-    WAVE_EFFECT,
-    OFF
+    RELAX = 0,
+    RAINBOW_FLOW = 1,
+    MULTI_TRAIL_FLOW = 2,
+    FIRE_EFFECT = 3,
+    WAVE_EFFECT = 4,
+    OFF = 5,
+    
+    // 最後のアクティブモード（OFFを除く）
+    LAST_ACTIVE_MODE = WAVE_EFFECT
 };
 
 class LedController {
@@ -25,12 +30,12 @@ class LedController {
         FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, LED_COUNT);
         FastLED.setBrightness(BRIGHTNESS);
         lastMode = LedMode::OFF;
+        isLedOn = false;
     }
 
     void setColor(CRGB color);
     void relax();
     void rainbowFlow(int speed = 30);
-    void smoothFlow(CRGB color, int speed = 60, int trailLength = 30);
     void multiTrailFlow(CRGB color, int speed = 60, int trailLength = 30,
                         int numTrails = 3, int spacing = 100);
     void fireEffect(int speed = 100);
@@ -38,6 +43,9 @@ class LedController {
     void turnOffLed();
     void switchToMode(LedMode mode);
     void update();
+    void toggleLed();
+    bool isLedEnabled() const { return isLedOn; }
+
     LedMode getModeAt(int direction) const;
     LedMode getLastMode() const { return lastMode; }
     void nextMode() { switchToMode(getModeAt(1)); }
@@ -53,6 +61,7 @@ class LedController {
     CRGB leds[LED_COUNT];
     LedMode lastMode;
     unsigned long lastUpdate = 0;
+    bool isLedOn;
 };
 
 #endif  // LED_CONTROLLER_HPP
