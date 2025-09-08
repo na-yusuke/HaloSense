@@ -6,12 +6,12 @@ void HaloSense::onGesture(GestureType gesture) { Serial.print("Do noting"); }
 
 void HaloSense::onUp() {
     switchLed();
-    delay(4000);
+    delay(1000);
 }
 
 void HaloSense::onDown() {
     switchLed();
-    delay(4000);
+    delay(1000);
 }
 
 void HaloSense::onLeft() { ledController.nextMode(); }
@@ -32,8 +32,7 @@ void HaloSense::switchLed() {
     if (isLedOn) {
         ledController.turnOffLed();
     } else {
-        ledController.restoreLastMode();
-        ledController.turnOffLed();
+        ledController.switchToMode(ledController.getLastMode());
     }
     isLedOn = !isLedOn;  // 状態を反転
 }

@@ -5,14 +5,16 @@ void LedController::setColor(CRGB color) {
         leds[i] = color;
     }
     FastLED.show();
-    lastMode = LedMode::SOLID_COLOR;
-    lastColor = color;
+}
+
+void LedController::relax() {
+    CRGB color = CRGB::GreenYellow;
+    if (lastMode != LedMode::RELAX) lastMode = LedMode::RELAX;
+    setColor(color);
 }
 
 void LedController::rainbowFlow(int speed) {
-    if (lastMode != LedMode::RAINBOW_FLOW) {
-        lastMode = LedMode::RAINBOW_FLOW;
-    }
+    if (lastMode != LedMode::RAINBOW_FLOW) lastMode = LedMode::RAINBOW_FLOW;
 
     static uint8_t hue = 0;
     for (int i = 0; i < LED_COUNT; i++) {
@@ -25,10 +27,7 @@ void LedController::rainbowFlow(int speed) {
 }
 
 void LedController::smoothFlow(CRGB color, int speed, int trailLength) {
-    if (lastMode != LedMode::SMOOTH_FLOW) {
-        lastMode = LedMode::SMOOTH_FLOW;
-        lastColor = color;
-    }
+    if (lastMode != LedMode::SMOOTH_FLOW) lastMode = LedMode::SMOOTH_FLOW;
 
     static int head = 0;
     // 尾を徐々に暗くする
@@ -51,10 +50,8 @@ void LedController::smoothFlow(CRGB color, int speed, int trailLength) {
 
 void LedController::multiTrailFlow(CRGB color, int speed, int trailLength,
                                    int numTrails, int spacing) {
-    if (lastMode != LedMode::MULTI_TRAIL_FLOW) {
+    if (lastMode != LedMode::MULTI_TRAIL_FLOW)
         lastMode = LedMode::MULTI_TRAIL_FLOW;
-        lastColor = color;
-    }
 
     static int head = 0;
     // 尾を徐々に暗くする
@@ -84,9 +81,7 @@ void LedController::multiTrailFlow(CRGB color, int speed, int trailLength,
 }
 
 void LedController::fireEffect(int speed) {
-    if (lastMode != LedMode::FIRE_EFFECT) {
-        lastMode = LedMode::FIRE_EFFECT;
-    }
+    if (lastMode != LedMode::FIRE_EFFECT) lastMode = LedMode::FIRE_EFFECT;
 
     for (int i = 0; i < LED_COUNT; i++) {
         int flickerRed = random(100, 255);
@@ -99,10 +94,7 @@ void LedController::fireEffect(int speed) {
 }
 
 void LedController::waveEffect(CRGB color, int speed, int waveLength) {
-    if (lastMode != LedMode::WAVE_EFFECT) {
-        lastMode = LedMode::WAVE_EFFECT;
-        lastColor = color;
-    }
+    if (lastMode != LedMode::WAVE_EFFECT) lastMode = LedMode::WAVE_EFFECT;
 
     static int pos = 0;
     resetLeds();
@@ -123,33 +115,10 @@ void LedController::turnOffLed() {
     FastLED.show();
 }
 
-void LedController::restoreLastMode() {
-    switch (lastMode) {
-        case LedMode::SOLID_COLOR:
-            setColor(lastColor);
-            break;
-        case LedMode::DOT_LINE_FLOW:
-        case LedMode::RAINBOW_FLOW:
-        case LedMode::SMOOTH_FLOW:
-        case LedMode::MULTI_TRAIL_FLOW:
-        case LedMode::FIRE_EFFECT:
-        case LedMode::WAVE_EFFECT:
-            // これらは次のloop()で自動的に開始される
-            break;
-        case LedMode::OFF:
-        default:
-            turnOffLed();
-            break;
-    }
-}
-
 void LedController::switchToMode(LedMode mode) {
     switch (mode) {
-        case LedMode::SOLID_COLOR:
-            setColor(CRGB::White);
-            break;
-        case LedMode::DOT_LINE_FLOW:
-            dotLineFlow(CRGB::Blue);
+        case LedMode::RELAX:
+            relax();
             break;
         case LedMode::RAINBOW_FLOW:
             rainbowFlow();

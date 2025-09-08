@@ -10,7 +10,7 @@
 #define COLOR_ORDER GRB
 
 enum class LedMode {
-    SOLID_COLOR,
+    RELAX,
     RAINBOW_FLOW,
     SMOOTH_FLOW,
     MULTI_TRAIL_FLOW,
@@ -25,11 +25,10 @@ class LedController {
         FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, LED_COUNT);
         FastLED.setBrightness(BRIGHTNESS);
         lastMode = LedMode::OFF;
-        lastColor = CRGB::White;
     }
 
     void setColor(CRGB color);
-    void relax() { setColor(CRGB::GreenYellow); }
+    void relax();
     void rainbowFlow(int speed = 30);
     void smoothFlow(CRGB color, int speed = 60, int trailLength = 30);
     void multiTrailFlow(CRGB color, int speed = 60, int trailLength = 30,
@@ -37,14 +36,12 @@ class LedController {
     void fireEffect(int speed = 100);
     void waveEffect(CRGB color, int speed = 50, int waveLength = 20);
     void turnOffLed();
-    void restoreLastMode();
     void switchToMode(LedMode mode);
 
     LedMode getLastMode() const { return lastMode; }
-    CRGB getLastColor() const { return lastColor; }
     LedMode getNextMode() const {
         switch (lastMode) {
-            case LedMode::SOLID_COLOR:
+            case LedMode::RELAX:
                 return LedMode::RAINBOW_FLOW;
             case LedMode::RAINBOW_FLOW:
                 return LedMode::SMOOTH_FLOW;
@@ -55,11 +52,11 @@ class LedController {
             case LedMode::FIRE_EFFECT:
                 return LedMode::WAVE_EFFECT;
             case LedMode::WAVE_EFFECT:
-                return LedMode::SOLID_COLOR;
+                return LedMode::RELAX;
             case LedMode::OFF:
-                return LedMode::SOLID_COLOR;
+                return LedMode::RELAX;
             default:
-                return LedMode::SOLID_COLOR;
+                return LedMode::RELAX;
         }
     }
     void nextMode() { switchToMode(getNextMode()); }
@@ -73,7 +70,6 @@ class LedController {
 
     CRGB leds[LED_COUNT];
     LedMode lastMode;
-    CRGB lastColor;
 };
 
 #endif  // LED_CONTROLLER_HPP
