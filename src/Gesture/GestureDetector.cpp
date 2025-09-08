@@ -62,19 +62,15 @@ void GestureDetector::handleGesture(GestureType gesture) {
     switch (gesture) {
         case GestureType::UP:
             if (gestureHandler) gestureHandler->onUp();
-            callSecondaryGesture(GestureType::UP);
             break;
         case GestureType::DOWN:
             if (gestureHandler) gestureHandler->onDown();
-            callSecondaryGesture(GestureType::DOWN);
             break;
         case GestureType::LEFT:
             if (gestureHandler) gestureHandler->onLeft();
-            callSecondaryGesture(GestureType::LEFT);
             break;
         case GestureType::RIGHT:
             if (gestureHandler) gestureHandler->onRight();
-            callSecondaryGesture(GestureType::RIGHT);
             break;
         case GestureType::FORWARD:
             if (gestureHandler) gestureHandler->onForward();
@@ -94,25 +90,5 @@ void GestureDetector::handleGesture(GestureType gesture) {
         case GestureType::NONE:
         default:
             break;
-    }
-}
-
-void GestureDetector::callSecondaryGesture(GestureType primaryGesture) {
-    delay(GES_ENTRY_TIME);
-    paj7620_gesture_t nextGesture;
-    if (Gesture.getResult(nextGesture)) {
-        GestureType secondaryGesture = mapGesture(nextGesture);
-        if (secondaryGesture == GestureType::FORWARD ||
-            secondaryGesture == GestureType::BACKWARD) {
-            if (gestureHandler) {
-                gestureHandler->onGesture(secondaryGesture);
-                if (secondaryGesture == GestureType::FORWARD) {
-                    gestureHandler->onForward();
-                } else {
-                    gestureHandler->onBackward();
-                }
-            }
-            delay(GES_QUIT_TIME);
-        }
     }
 }

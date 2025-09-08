@@ -48,7 +48,6 @@ class GestureDetector {
 
     GestureType mapGesture(paj7620_gesture_t rawGesture);
     void handleGesture(GestureType gesture);
-    void callSecondaryGesture(GestureType primaryGesture);
 };
 
 #endif  // GESTURE_DETECTOR_HPP
