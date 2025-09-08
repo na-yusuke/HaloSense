@@ -16,6 +16,8 @@ class HaloSense : public IGestureHandler {
     void onClockwise() override;
     void onAntiClockwise() override;
     void onWave() override;
+    
+    void updateLed() { if (isLedOn) ledController.update(); }
 
    private:
     void switchLed();

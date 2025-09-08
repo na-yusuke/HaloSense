@@ -37,29 +37,11 @@ class LedController {
     void waveEffect(CRGB color, int speed = 50, int waveLength = 20);
     void turnOffLed();
     void switchToMode(LedMode mode);
-
+    void update();
+    LedMode getModeAt(int direction) const;
     LedMode getLastMode() const { return lastMode; }
-    LedMode getNextMode() const {
-        switch (lastMode) {
-            case LedMode::RELAX:
-                return LedMode::RAINBOW_FLOW;
-            case LedMode::RAINBOW_FLOW:
-                return LedMode::SMOOTH_FLOW;
-            case LedMode::SMOOTH_FLOW:
-                return LedMode::MULTI_TRAIL_FLOW;
-            case LedMode::MULTI_TRAIL_FLOW:
-                return LedMode::FIRE_EFFECT;
-            case LedMode::FIRE_EFFECT:
-                return LedMode::WAVE_EFFECT;
-            case LedMode::WAVE_EFFECT:
-                return LedMode::RELAX;
-            case LedMode::OFF:
-                return LedMode::RELAX;
-            default:
-                return LedMode::RELAX;
-        }
-    }
-    void nextMode() { switchToMode(getNextMode()); }
+    void nextMode() { switchToMode(getModeAt(1)); }
+    void previousMode() { switchToMode(getModeAt(-1)); }
 
    private:
     void resetLeds() {
@@ -70,6 +52,7 @@ class LedController {
 
     CRGB leds[LED_COUNT];
     LedMode lastMode;
+    unsigned long lastUpdate = 0;
 };
 
 #endif  // LED_CONTROLLER_HPP

@@ -111,32 +111,49 @@ void LedController::waveEffect(CRGB color, int speed, int waveLength) {
 }
 
 void LedController::turnOffLed() {
-    FastLED.clear();
+    resetLeds();
     FastLED.show();
 }
 
 void LedController::switchToMode(LedMode mode) {
-    switch (mode) {
+    resetLeds();
+    lastMode = mode;
+    lastUpdate = 0;  // 即座に更新
+}
+
+void LedController::update() {
+    if (millis() - lastUpdate < 50) return;  // 50ms間隔
+    lastUpdate = millis();
+
+    switch (lastMode) {
         case LedMode::RELAX:
             relax();
             break;
         case LedMode::RAINBOW_FLOW:
-            rainbowFlow();
+            rainbowFlow(0);  // delay無し
             break;
         case LedMode::SMOOTH_FLOW:
-            smoothFlow(CRGB::Green);
+            smoothFlow(CRGB::Green, 0);
             break;
         case LedMode::MULTI_TRAIL_FLOW:
-            multiTrailFlow(CRGB::Purple);
+            multiTrailFlow(CRGB::Purple, 0);
             break;
         case LedMode::FIRE_EFFECT:
-            fireEffect();
+            fireEffect(0);
             break;
         case LedMode::WAVE_EFFECT:
-            waveEffect(CRGB::Cyan);
+            waveEffect(CRGB::Cyan, 0);
             break;
         case LedMode::OFF:
-            turnOffLed();
             break;
     }
+}
+
+LedMode LedController::getModeAt(int direction) const {
+    const LedMode modes[] = {LedMode::RELAX,       LedMode::RAINBOW_FLOW,
+                             LedMode::SMOOTH_FLOW, LedMode::MULTI_TRAIL_FLOW,
+                             LedMode::FIRE_EFFECT, LedMode::WAVE_EFFECT};
+    const int numModes = sizeof(modes) / sizeof(modes[0]);
+    int newIndex = ((int)lastMode + direction + numModes) % numModes;
+    return modes[newIndex];
 }

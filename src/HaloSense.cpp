@@ -2,35 +2,43 @@
 
 #include <Arduino.h>
 
-void HaloSense::onGesture(GestureType gesture) { Serial.print("Do noting"); }
-
-void HaloSense::onUp() {
-    switchLed();
-    delay(1000);
+void HaloSense::onGesture(GestureType gesture) {
+    Serial.println("onGesture: Do noting");
 }
 
-void HaloSense::onDown() {
-    switchLed();
-    delay(1000);
+void HaloSense::onUp() { Serial.println("onUp: Do noting"); }
+
+void HaloSense::onDown() { Serial.println("onDown: Do noting"); }
+
+void HaloSense::onLeft() {
+    Serial.println("onLeft: Previous Mode");
+    ledController.previousMode();
 }
 
-void HaloSense::onLeft() { ledController.nextMode(); }
+void HaloSense::onRight() {
+    Serial.println("onRight: Next Mode");
+    ledController.nextMode();
+}
 
-void HaloSense::onRight() { ledController.nextMode(); }
+void HaloSense::onForward() {
+    Serial.println("onForward: Switch LED");
+    switchLed();
+}
 
-void HaloSense::onForward() { ledController.nextMode(); }
+void HaloSense::onBackward() { Serial.println("onBackward: Do noting"); }
 
-void HaloSense::onBackward() { ledController.nextMode(); }
+void HaloSense::onClockwise() { Serial.println("onClockwise: Do noting"); }
 
-void HaloSense::onClockwise() { ledController.nextMode(); }
+void HaloSense::onAntiClockwise() {
+    Serial.println("onAntiClockwise: Do noting");
+}
 
-void HaloSense::onAntiClockwise() { ledController.nextMode(); }
-
-void HaloSense::onWave() { ledController.nextMode(); }
+void HaloSense::onWave() { Serial.println("onWave: Do noting"); }
 
 void HaloSense::switchLed() {
     if (isLedOn) {
         ledController.turnOffLed();
+        updateLed();
     } else {
         ledController.switchToMode(ledController.getLastMode());
     }

@@ -20,11 +20,12 @@ void setup() {
         Serial.println("GestureDetector initialization failed");
     }
 
-    // ハンドラーの設定（依存性の注入）
     gestureDetector.setGestureHandler(handler);
 }
 
 void loop() {
     // ジェスチャー処理の実行
     gestureDetector.processGestures();
+    // LEDエフェクト更新
+    handler->updateLed();
 }
