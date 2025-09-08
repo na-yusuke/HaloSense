@@ -1,6 +1,6 @@
+#include <GestureDetector.hpp>
 #include <memory>
 
-#include "Gesture/GestureDetector.hpp"
 #include "HaloSense.hpp"
 
 GestureDetector gestureDetector;

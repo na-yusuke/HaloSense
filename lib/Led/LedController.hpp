@@ -33,6 +33,7 @@ class LedController {
         isLedOn = false;
     }
 
+    // LEDエフェクト系メソッド
     void setColor(CRGB color);
     void relax();
     void rainbowFlow(int speed = 30);
@@ -40,12 +41,14 @@ class LedController {
                         int numTrails = 3, int spacing = 100);
     void fireEffect(int speed = 100);
     void waveEffect(CRGB color, int speed = 50, int waveLength = 20);
+
+    // LED制御系メソッド
     void turnOffLed();
     void switchToMode(LedMode mode);
     void update();
     void toggleLed();
-    bool isLedEnabled() const { return isLedOn; }
 
+    bool isLedEnabled() const { return isLedOn; }
     LedMode getModeAt(int direction) const;
     LedMode getLastMode() const { return lastMode; }
     void nextMode() { switchToMode(getModeAt(1)); }

@@ -1,8 +1,8 @@
 #ifndef HALO_SENSE_HPP
 #define HALO_SENSE_HPP
 
-#include "Gesture/GestureDetector.hpp"
-#include "Led/LedController.hpp"
+#include <GestureDetector.hpp>
+#include <LedController.hpp>
 
 class HaloSense : public IGestureHandler {
    public:
@@ -16,7 +16,7 @@ class HaloSense : public IGestureHandler {
     void onClockwise() override;
     void onAntiClockwise() override;
     void onWave() override;
-    
+
     void updateLed() { ledController.update(); }
 
    private:

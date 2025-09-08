@@ -128,7 +128,6 @@ void LedController::toggleLed() {
     if (isLedOn) {
         turnOffLed();
     } else {
-        // 前回のモードを復元（OFFの場合はRELAXにデフォルト）
         if (lastMode == LedMode::OFF) {
             lastMode = LedMode::RELAX;
         }
@@ -142,7 +141,7 @@ LedMode LedController::getModeAt(int direction) const {
 
     int currentIndex = static_cast<int>(lastMode);
     if (lastMode == LedMode::OFF) {
-        currentIndex = 0;  // RELAX
+        currentIndex = static_cast<int>(LedMode::RELAX);
     }
 
     int newIndex = (currentIndex + direction + numActiveModes) % numActiveModes;
