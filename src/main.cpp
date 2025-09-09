@@ -3,7 +3,7 @@
 
 #include "HaloSense.hpp"
 
-GestureDetector gestureDetector;
+GestureDetector gestureDetector(1000);
 std::shared_ptr<HaloSense> handler;
 
 void setup() {

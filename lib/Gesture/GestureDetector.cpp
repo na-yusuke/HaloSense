@@ -1,8 +1,5 @@
 #include "GestureDetector.hpp"
 
-#define GES_ENTRY_TIME 800
-#define GES_QUIT_TIME 1000
-
 bool GestureDetector::init() {
     Wire.setSCL(9);
     Wire.setSDA(8);
@@ -21,12 +18,19 @@ void GestureDetector::setGestureHandler(
 }
 
 void GestureDetector::processGestures() {
+    static unsigned long lastGestureCheckMs = 0;
+    unsigned long currentTimeMs = millis();
+
     paj7620_gesture_t result;
-    if (Gesture.getResult(result)) {
-        GestureType gesture = mapGesture(result);
-        handleGesture(gesture);
+    if (!Gesture.getResult(result)) {
+        return;
     }
-    delay(100);
+    if ((currentTimeMs - lastGestureCheckMs) < gestureIntervalMs) {
+        return;
+    }
+    GestureType gesture = mapGesture(result);
+    handleGesture(gesture);
+    lastGestureCheckMs = currentTimeMs;
 }
 
 GestureType GestureDetector::mapGesture(paj7620_gesture_t rawGesture) {
