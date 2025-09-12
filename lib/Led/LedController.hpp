@@ -31,6 +31,7 @@ class LedController {
         FastLED.setBrightness(BRIGHTNESS);
         lastMode = LedMode::OFF;
         isLedOn = false;
+        turnOffLed();
     }
 
     // LEDエフェクト系メソッド
@@ -53,10 +54,10 @@ class LedController {
     }
 
     bool isLedEnabled() const { return isLedOn; }
-    LedMode getModeAt(int32_t direction) const;
     LedMode getLastMode() const { return lastMode; }
-    void nextMode() { switchToMode(getModeAt(1)); }
-    void previousMode() { switchToMode(getModeAt(-1)); }
+    LedMode getModeAt(int32_t direction) const;
+    void nextMode();
+    void previousMode();
 
    private:
     void resetLeds();

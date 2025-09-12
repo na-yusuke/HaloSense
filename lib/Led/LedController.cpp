@@ -152,6 +152,10 @@ LedMode LedController::getModeAt(int32_t direction) const {
     return static_cast<LedMode>(newIndex);
 }
 
+void LedController::nextMode() { switchToMode(getModeAt(1)); }
+
+void LedController::previousMode() { switchToMode(getModeAt(-1)); }
+
 void LedController::resetLeds() {
     for (int32_t i = 0; i < LED_COUNT; i++) {
         leds[i] = CRGB::Black;
