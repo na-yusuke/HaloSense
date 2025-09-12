@@ -3,6 +3,7 @@
 
 #include <GestureDetector.hpp>
 #include <LedController.hpp>
+#include <LumenMeter.hpp>
 
 class HaloSense : public IGestureHandler {
    public:
@@ -17,10 +18,19 @@ class HaloSense : public IGestureHandler {
     void onAntiClockwise() override;
     void onWave() override;
 
+    void adjustLedBrightnessByAmbientLight() {
+        int32_t lumenValue = lumenMeter.readLumenValue();
+        if (lumenValue == lastLumenValue) return;
+        lastLumenValue = lumenValue;
+        ledController.setBrightness(map(lumenValue, 0, 1023, 30, 220));
+    }
     void updateLed() { ledController.update(); }
 
    private:
     LedController ledController;
+    LumenMeter lumenMeter;
+
+    int32_t lastLumenValue = -1;
 };
 
 #endif  // HALO_SENSE_HPP

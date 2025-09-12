@@ -1,7 +1,7 @@
 #include "LedController.hpp"
 
 void LedController::setColor(CRGB color) {
-    for (int i = 0; i < LED_COUNT; i++) {
+    for (int32_t i = 0; i < LED_COUNT; i++) {
         leds[i] = color;
     }
     FastLED.show();
@@ -12,11 +12,11 @@ void LedController::relax() {
     setColor(CRGB::GreenYellow);
 }
 
-void LedController::rainbowFlow(int speed) {
+void LedController::rainbowFlow(int32_t speed) {
     if (lastMode != LedMode::RAINBOW_FLOW) lastMode = LedMode::RAINBOW_FLOW;
 
     static uint8_t hue = 0;
-    for (int i = 0; i < LED_COUNT; i++) {
+    for (int32_t i = 0; i < LED_COUNT; i++) {
         leds[i] = CHSV((hue + i * 2) % 256, 255, 255);
     }
 
@@ -25,24 +25,25 @@ void LedController::rainbowFlow(int speed) {
     delay(speed);
 }
 
-void LedController::multiTrailFlow(CRGB color, int speed, int trailLength,
-                                   int numTrails, int spacing) {
+void LedController::multiTrailFlow(CRGB color, int32_t speed,
+                                   int32_t trailLength, int32_t numTrails,
+                                   int32_t spacing) {
     if (lastMode != LedMode::MULTI_TRAIL_FLOW)
         lastMode = LedMode::MULTI_TRAIL_FLOW;
 
-    static int head = 0;
+    static int32_t head = 0;
     // 尾を徐々に暗くする
-    for (int i = 0; i < LED_COUNT; i++) {
+    for (int32_t i = 0; i < LED_COUNT; i++) {
         leds[i].fadeToBlackBy(15);
     }
 
     // 複数のトレイルを描画
-    for (int trail = 0; trail < numTrails; trail++) {
-        int trailHead = (head + trail * spacing) % LED_COUNT;
+    for (int32_t trail = 0; trail < numTrails; trail++) {
+        int32_t trailHead = (head + trail * spacing) % LED_COUNT;
 
         // 各トレイルの描画
-        for (int i = 0; i < trailLength; i++) {
-            int pos = (trailHead - i + LED_COUNT) % LED_COUNT;
+        for (int32_t i = 0; i < trailLength; i++) {
+            int32_t pos = (trailHead - i + LED_COUNT) % LED_COUNT;
             float brightness = (float)(trailLength - i) / trailLength;
 
             // 既存の明度と加算（重複時の明るさ調整）
@@ -57,12 +58,12 @@ void LedController::multiTrailFlow(CRGB color, int speed, int trailLength,
     delay(speed);
 }
 
-void LedController::fireEffect(int speed) {
+void LedController::fireEffect(int32_t speed) {
     if (lastMode != LedMode::FIRE_EFFECT) lastMode = LedMode::FIRE_EFFECT;
 
-    for (int i = 0; i < LED_COUNT; i++) {
-        int flickerRed = random(100, 255);
-        int flickerGreen = random(0, flickerRed / 3);
+    for (int32_t i = 0; i < LED_COUNT; i++) {
+        int32_t flickerRed = random(100, 255);
+        int32_t flickerGreen = random(0, flickerRed / 3);
         leds[i] = CRGB(flickerRed, flickerGreen, 0);
     }
 
@@ -70,13 +71,13 @@ void LedController::fireEffect(int speed) {
     delay(speed);
 }
 
-void LedController::waveEffect(CRGB color, int speed, int waveLength) {
+void LedController::waveEffect(CRGB color, int32_t speed, int32_t waveLength) {
     if (lastMode != LedMode::WAVE_EFFECT) lastMode = LedMode::WAVE_EFFECT;
 
-    static int pos = 0;
+    static int32_t pos = 0;
     resetLeds();
-    for (int i = 0; i < waveLength; i++) {
-        int ledIndex = (pos + i) % LED_COUNT;
+    for (int32_t i = 0; i < waveLength; i++) {
+        int32_t ledIndex = (pos + i) % LED_COUNT;
         float brightness = sin((float)i / waveLength * PI);
         leds[ledIndex] = CRGB(color.r * brightness, color.g * brightness,
                               color.b * brightness);
@@ -99,9 +100,10 @@ void LedController::switchToMode(LedMode mode) {
 }
 
 void LedController::update() {
-    if (!isLedOn || millis() - lastUpdate < LED_UPDATE_INTERVAL_MS)
+    uint32_t currentTimeMs = millis();
+    if (!isLedOn || (currentTimeMs - lastUpdate) < LED_UPDATE_INTERVAL_MS)
         return;  // LED OFF時は更新しない
-    lastUpdate = millis();
+    lastUpdate = currentTimeMs;
 
     switch (lastMode) {
         case LedMode::RELAX:
@@ -136,14 +138,22 @@ void LedController::toggleLed() {
     isLedOn = !isLedOn;
 }
 
-LedMode LedController::getModeAt(int direction) const {
-    const int numActiveModes = static_cast<int>(LedMode::LAST_ACTIVE_MODE) + 1;
+LedMode LedController::getModeAt(int32_t direction) const {
+    const int32_t numActiveModes =
+        static_cast<int32_t>(LedMode::LAST_ACTIVE_MODE) + 1;
 
-    int currentIndex = static_cast<int>(lastMode);
+    int32_t currentIndex = static_cast<int32_t>(lastMode);
     if (lastMode == LedMode::OFF) {
-        currentIndex = static_cast<int>(LedMode::RELAX);
+        currentIndex = static_cast<int32_t>(LedMode::RELAX);
     }
 
-    int newIndex = (currentIndex + direction + numActiveModes) % numActiveModes;
+    int32_t newIndex =
+        (currentIndex + direction + numActiveModes) % numActiveModes;
     return static_cast<LedMode>(newIndex);
+}
+
+void LedController::resetLeds() {
+    for (int32_t i = 0; i < LED_COUNT; i++) {
+        leds[i] = CRGB::Black;
+    }
 }

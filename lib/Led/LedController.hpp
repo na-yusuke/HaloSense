@@ -36,34 +36,34 @@ class LedController {
     // LEDエフェクト系メソッド
     void setColor(CRGB color);
     void relax();
-    void rainbowFlow(int speed = 30);
-    void multiTrailFlow(CRGB color, int speed = 60, int trailLength = 30,
-                        int numTrails = 3, int spacing = 100);
-    void fireEffect(int speed = 100);
-    void waveEffect(CRGB color, int speed = 50, int waveLength = 20);
+    void rainbowFlow(int32_t speed = 30);
+    void multiTrailFlow(CRGB color, int32_t speed = 60,
+                        int32_t trailLength = 30, int32_t numTrails = 3,
+                        int32_t spacing = 100);
+    void fireEffect(int32_t speed = 100);
+    void waveEffect(CRGB color, int32_t speed = 50, int32_t waveLength = 20);
 
     // LED制御系メソッド
     void turnOffLed();
     void switchToMode(LedMode mode);
     void update();
     void toggleLed();
+    void setBrightness(int32_t brightness) {
+        FastLED.setBrightness(brightness);
+    }
 
     bool isLedEnabled() const { return isLedOn; }
-    LedMode getModeAt(int direction) const;
+    LedMode getModeAt(int32_t direction) const;
     LedMode getLastMode() const { return lastMode; }
     void nextMode() { switchToMode(getModeAt(1)); }
     void previousMode() { switchToMode(getModeAt(-1)); }
 
    private:
-    void resetLeds() {
-        for (int i = 0; i < LED_COUNT; i++) {
-            leds[i] = CRGB::Black;
-        }
-    }
+    void resetLeds();
 
     CRGB leds[LED_COUNT];
     LedMode lastMode;
-    unsigned long lastUpdate = 0;
+    uint32_t lastUpdate = 0;
     bool isLedOn;
 };
 

@@ -37,7 +37,7 @@ class IGestureHandler {
 
 class GestureDetector {
    public:
-    GestureDetector(unsigned long intervalMs) : gestureIntervalMs(intervalMs) {
+    GestureDetector(uint32_t intervalMs) : gestureIntervalMs(intervalMs) {
         gestureHandler = nullptr;
     }
     bool init();
@@ -50,7 +50,7 @@ class GestureDetector {
 
     paj7620 Gesture;
     std::shared_ptr<IGestureHandler> gestureHandler;
-    unsigned long gestureIntervalMs;
+    uint32_t gestureIntervalMs;
 };
 
 #endif  // GESTURE_DETECTOR_HPP

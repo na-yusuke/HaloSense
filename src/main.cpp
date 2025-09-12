@@ -1,4 +1,5 @@
 #include <GestureDetector.hpp>
+#include <LumenMeter.hpp>
 #include <memory>
 
 #include "HaloSense.hpp"
@@ -26,6 +27,8 @@ void setup() {
 void loop() {
     // ジェスチャー処理の実行
     gestureDetector.processGestures();
+    // 照度センサー値の読み取りとLEDの明るさ調整
+    handler->adjustLedBrightnessByAmbientLight();
     // LEDエフェクト更新
     handler->updateLed();
 }

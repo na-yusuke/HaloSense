@@ -18,8 +18,8 @@ void GestureDetector::setGestureHandler(
 }
 
 void GestureDetector::processGestures() {
-    static unsigned long lastGestureCheckMs = 0;
-    unsigned long currentTimeMs = millis();
+    static uint32_t lastGestureCheckMs = 0;
+    uint32_t currentTimeMs = millis();
 
     paj7620_gesture_t result;
     if (!Gesture.getResult(result)) {
