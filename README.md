@@ -1,8 +1,9 @@
 # HaloSense
 
-Interactive LED System with Gesture Control
+A real-time gesture-controlled LED ambient lighting system powered by Raspberry Pi Pico.
+Experience immersive visual effects that respond to your hand movements with individually addressable LEDs.
 
-https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873
+<https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873>
 
 ## 🌍 Environment
 
@@ -101,23 +102,23 @@ $ C:\Users\<user>\.platformio\penv\Scripts\platformio.exe device monitor --envir
 
 #### RELAX - Fixed green-yellow color
 
-https://github.com/user-attachments/assets/98735359-6b4d-485f-8619-0da2b905b934
+<https://github.com/user-attachments/assets/98735359-6b4d-485f-8619-0da2b905b934>
 
 #### RAINBOW_FLOW - Flowing rainbow effect
 
-https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873
+<https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873>
 
 #### MULTI_TRAIL_FLOW - Multiple light trails following effect
 
-https://github.com/user-attachments/assets/99d7cd5b-fad2-463a-b2bc-c7e4c578b8e0
+<https://github.com/user-attachments/assets/99d7cd5b-fad2-463a-b2bc-c7e4c578b8e0>
 
 #### FIRE_EFFECT - Flame-like flickering effect
 
-https://github.com/user-attachments/assets/8895ab52-2fd1-48eb-9dab-5813eb820794
+<https://github.com/user-attachments/assets/8895ab52-2fd1-48eb-9dab-5813eb820794>
 
 #### WAVE_EFFECT - Wave pattern effect
 
-https://github.com/user-attachments/assets/32dad7a4-d0aa-4334-b5df-adb5c8f35909
+<https://github.com/user-attachments/assets/32dad7a4-d0aa-4334-b5df-adb5c8f35909>
 
 ## 📚 References
 
@@ -127,3 +128,8 @@ https://github.com/user-attachments/assets/32dad7a4-d0aa-4334-b5df-adb5c8f35909
 - [【Arduino】Raspberry Pi Pico をArduinoでプログラミング！LEDを光らせよう。](https://karakuri-musha.com/inside-technology/arduino-raspberrypi-pico-ledstrip01/)
 
 ## 💡 Motivation for it
+
+When I wake up at night, I feel annoyed to turn on the room light because it is too bright.  
+So, I developed this system to provide a comfortable ambient light that can be easily controlled with hand gestures.
+Since I have developed it, I prepared various LED effects and enjoy changing them with hand gestures.
+I hope you will also enjoy using this system!
