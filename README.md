@@ -27,7 +27,7 @@ Raspberry Pi Pico with Grove Shield:
 └── USB  → PC or Power Supply
 ```
 
-| <img src=/image/raspberrypi_pico.jpg width= "300px" > | <img src=/image/led_strip.jpg width= "300px" > | <img src=/image/gesture_sensor.jpg width= "300px" > | <img src=/image/lumen_sensor.jpg width= "300px" > |
+| <img src=/resources/image/raspberrypi_pico.jpg width= "300px" > | <img src=/resources/image/led_strip.jpg width= "300px" > | <img src=/resources/image/gesture_sensor.jpg width= "300px" > | <img src=/resources/image/lumen_sensor.jpg width= "300px" > |
 | :----: | :----: | :----: | :----: |
 | Raspberry Pi Pico | LED Strip | Gesture Sensor | Light Sensor |
 
@@ -130,6 +130,6 @@ $ C:\Users\<user>\.platformio\penv\Scripts\platformio.exe device monitor --envir
 ## 💡 Motivation for it
 
 When I wake up at night, I feel annoyed to turn on the room light because it is too bright.  
-So, I developed this system to provide a comfortable ambient light that can be easily controlled with hand gestures.
-Since I have developed it, I prepared various LED effects and enjoy changing them with hand gestures.
-I hope you will also enjoy using this system!
+So, I developed this system to provide a comfortable ambient light that can be easily controlled with hand gestures.  
+Since I have developed it, I prepared various LED effects and enjoy changing them with hand gestures.  
+I hope you will also enjoy using this system!  

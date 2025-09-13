@@ -5,11 +5,11 @@
 - When installing LED tape around corners, bending the tape directly can damage the LEDs or make installation difficult.
 - In such cases, cut the LED tape and reconnect the cut surfaces with jumper wires to make it easier to bend around corners.
 
-<img src=/image/processed_leds1.jpg width= "400px" >
+<img src=/resources/image/processed_leds1.jpg width= "400px" >
 
 - At this time, carefully check the cut surfaces of the LED tape and connect them so that the order of GND, 5V, and Data matches.
 
-<img src=/image/processed_leds2.jpg width= "400px" >
+<img src=/resources/image/processed_leds2.jpg width= "400px" >
 
 - Once the processing is complete, cover thoroughly with insulating tape to prevent short circuits.
 
