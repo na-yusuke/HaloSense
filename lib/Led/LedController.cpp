@@ -113,13 +113,13 @@ void LedController::update() {
             rainbowFlow(0);
             break;
         case LedMode::MULTI_TRAIL_FLOW:
-            multiTrailFlow(CRGB::Purple, 0);
+            multiTrailFlow(CRGB::MediumSpringGreen, 0);
             break;
         case LedMode::FIRE_EFFECT:
             fireEffect(0);
             break;
         case LedMode::WAVE_EFFECT:
-            waveEffect(CRGB::Cyan, 0);
+            waveEffect(CRGB::Yellow, 0);
             break;
         case LedMode::OFF:
             break;
