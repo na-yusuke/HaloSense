@@ -12,17 +12,17 @@ void HaloSense::onDown() { Serial.println("onDown: Do noting"); }
 
 void HaloSense::onLeft() {
     Serial.println("onLeft: Previous Mode");
-    ledController.previousMode();
+    led_controller_.previousMode();
 }
 
 void HaloSense::onRight() {
     Serial.println("onRight: Next Mode");
-    ledController.nextMode();
+    led_controller_.nextMode();
 }
 
 void HaloSense::onForward() {
     Serial.println("onForward: Toggle LED");
-    ledController.toggleLed();
+    led_controller_.toggleLed();
 }
 
 void HaloSense::onBackward() { Serial.println("onBackward: Do noting"); }

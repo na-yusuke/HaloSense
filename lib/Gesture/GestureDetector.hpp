@@ -37,20 +37,20 @@ class IGestureHandler {
 
 class GestureDetector {
    public:
-    GestureDetector(uint32_t intervalMs) : gestureIntervalMs(intervalMs) {
-        gestureHandler = nullptr;
+    GestureDetector(uint32_t interval_ms) : gesture_interval_ms_(interval_ms) {
+        gesture_handler_ = nullptr;
     }
     bool init();
     void processGestures();
     void setGestureHandler(std::shared_ptr<IGestureHandler> handler);
 
    private:
-    GestureType mapGesture(paj7620_gesture_t rawGesture);
+    GestureType mapGesture(paj7620_gesture_t raw_gesture);
     void handleGesture(GestureType gesture);
 
-    paj7620 Gesture;
-    std::shared_ptr<IGestureHandler> gestureHandler;
-    uint32_t gestureIntervalMs;
+    paj7620 gesture_;
+    std::shared_ptr<IGestureHandler> gesture_handler_;
+    uint32_t gesture_interval_ms_;
 };
 
 #endif  // GESTURE_DETECTOR_HPP

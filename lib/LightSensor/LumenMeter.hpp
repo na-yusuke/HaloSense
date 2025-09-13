@@ -5,28 +5,28 @@
 
 class LumenMeter {
    public:
-    LumenMeter(uint32_t intervalMs = 1000) : lumenIntervalMs(intervalMs) {}
+    LumenMeter(uint32_t interval_ms = 1000) : lumen_interval_ms_(interval_ms) {}
 
-    void setAnalogPin(int32_t pin) { analogPin = pin; }
-    uint8_t getAnalogPin() const { return analogPin; }
-    uint8_t getLastLumenValue() const { return lumenValue; }
+    void setAnalogPin(int32_t pin) { analog_pin_ = pin; }
+    uint8_t getAnalogPin() const { return analog_pin_; }
+    uint8_t getLastLumenValue() const { return lumen_value_; }
     int32_t readLumenValue() {
-        static uint32_t lastGestureCheckMs = 0;
-        uint32_t currentTimeMs = millis();
+        static uint32_t last_gesture_check_ms = 0;
+        uint32_t current_time_ms = millis();
 
-        if ((currentTimeMs - lastGestureCheckMs) < lumenIntervalMs) {
-            return lumenValue;
+        if ((current_time_ms - last_gesture_check_ms) < lumen_interval_ms_) {
+            return lumen_value_;
         }
-        lumenValue = analogRead(analogPin);
-        lastGestureCheckMs = currentTimeMs;
+        lumen_value_ = analogRead(analog_pin_);
+        last_gesture_check_ms = current_time_ms;
 
-        return lumenValue;
+        return lumen_value_;
     }
 
    private:
-    int32_t lumenValue = 0;
-    uint32_t lumenIntervalMs;
-    uint8_t analogPin = A0;
+    int32_t lumen_value_ = 0;
+    uint32_t lumen_interval_ms_;
+    uint8_t analog_pin_ = A0;
 };
 
 #endif  // LUMEN_METER_HPP

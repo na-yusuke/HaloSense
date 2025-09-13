@@ -3,14 +3,11 @@
 
 #include <FastLED.h>
 
+#include <vector>
+
 #define LED_TYPE SK6812
 #define LED_PIN 0
-#define LED_COUNT 300
-#define BRIGHTNESS 10
 #define COLOR_ORDER GRB
-
-// LED更新間隔（ミリ秒）
-#define LED_UPDATE_INTERVAL_MS 50
 
 enum class LedMode {
     RELAX = 0,
@@ -20,31 +17,36 @@ enum class LedMode {
     WAVE_EFFECT = 4,
     OFF = 5,
 
-    // 最後のアクティブモード（OFFを除く）
+    // Last active mode (excluding OFF)
     LAST_ACTIVE_MODE = WAVE_EFFECT
 };
 
 class LedController {
    public:
-    LedController() {
-        FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, LED_COUNT);
-        FastLED.setBrightness(BRIGHTNESS);
-        lastMode = LedMode::OFF;
-        isLedOn = false;
+    LedController(uint16_t led_count = 300, uint16_t brightness = 10,
+                  uint32_t interval_ms = 50)
+        : led_interval_ms_(interval_ms),
+          led_count_(led_count),
+          leds_(led_count) {
+        FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds_.data(),
+                                                        led_count_);
+        FastLED.setBrightness(brightness);
+        last_mode_ = LedMode::OFF;
+        is_led_on_ = false;
         turnOffLed();
     }
 
-    // LEDエフェクト系メソッド
+    // LED effect methods
     void setColor(CRGB color);
     void relax();
     void rainbowFlow(int32_t speed = 30);
     void multiTrailFlow(CRGB color, int32_t speed = 60,
-                        int32_t trailLength = 30, int32_t numTrails = 3,
+                        int32_t trail_length = 30, int32_t num_trails = 3,
                         int32_t spacing = 100);
     void fireEffect(int32_t speed = 100);
-    void waveEffect(CRGB color, int32_t speed = 50, int32_t waveLength = 20);
+    void waveEffect(CRGB color, int32_t speed = 50, int32_t wave_length = 20);
 
-    // LED制御系メソッド
+    // LED control methods
     void turnOffLed();
     void switchToMode(LedMode mode);
     void update();
@@ -53,8 +55,8 @@ class LedController {
         FastLED.setBrightness(brightness);
     }
 
-    bool isLedEnabled() const { return isLedOn; }
-    LedMode getLastMode() const { return lastMode; }
+    bool isLedEnabled() const { return is_led_on_; }
+    LedMode getLastMode() const { return last_mode_; }
     LedMode getModeAt(int32_t direction) const;
     void nextMode();
     void previousMode();
@@ -62,10 +64,12 @@ class LedController {
    private:
     void resetLeds();
 
-    CRGB leds[LED_COUNT];
-    LedMode lastMode;
-    uint32_t lastUpdate = 0;
-    bool isLedOn;
+    std::vector<CRGB> leds_;
+    LedMode last_mode_;
+    uint32_t led_interval_ms_;
+    uint32_t last_update_ = 0;
+    uint16_t led_count_;
+    bool is_led_on_;
 };
 
 #endif  // LED_CONTROLLER_HPP

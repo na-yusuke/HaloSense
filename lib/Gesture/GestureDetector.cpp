@@ -3,7 +3,7 @@
 bool GestureDetector::init() {
     Wire.setSCL(9);
     Wire.setSDA(8);
-    if (Gesture.init()) {
+    if (gesture_.init()) {
         Serial.println("PAJ7620U2 initialization success");
         return true;
     } else {
@@ -14,27 +14,27 @@ bool GestureDetector::init() {
 
 void GestureDetector::setGestureHandler(
     std::shared_ptr<IGestureHandler> handler) {
-    gestureHandler = handler;
+    gesture_handler_ = handler;
 }
 
 void GestureDetector::processGestures() {
-    static uint32_t lastGestureCheckMs = 0;
-    uint32_t currentTimeMs = millis();
+    static uint32_t last_gesture_check_ms = 0;
+    uint32_t current_time_ms = millis();
 
     paj7620_gesture_t result;
-    if (!Gesture.getResult(result)) {
+    if (!gesture_.getResult(result)) {
         return;
     }
-    if ((currentTimeMs - lastGestureCheckMs) < gestureIntervalMs) {
+    if ((current_time_ms - last_gesture_check_ms) < gesture_interval_ms_) {
         return;
     }
     GestureType gesture = mapGesture(result);
     handleGesture(gesture);
-    lastGestureCheckMs = currentTimeMs;
+    last_gesture_check_ms = current_time_ms;
 }
 
-GestureType GestureDetector::mapGesture(paj7620_gesture_t rawGesture) {
-    switch (rawGesture) {
+GestureType GestureDetector::mapGesture(paj7620_gesture_t raw_gesture) {
+    switch (raw_gesture) {
         case UP:
             return GestureType::UP;
         case DOWN:
@@ -59,37 +59,37 @@ GestureType GestureDetector::mapGesture(paj7620_gesture_t rawGesture) {
 }
 
 void GestureDetector::handleGesture(GestureType gesture) {
-    if (gestureHandler) {
-        gestureHandler->onGesture(gesture);
+    if (gesture_handler_) {
+        gesture_handler_->onGesture(gesture);
     }
 
     switch (gesture) {
         case GestureType::UP:
-            if (gestureHandler) gestureHandler->onUp();
+            if (gesture_handler_) gesture_handler_->onUp();
             break;
         case GestureType::DOWN:
-            if (gestureHandler) gestureHandler->onDown();
+            if (gesture_handler_) gesture_handler_->onDown();
             break;
         case GestureType::LEFT:
-            if (gestureHandler) gestureHandler->onLeft();
+            if (gesture_handler_) gesture_handler_->onLeft();
             break;
         case GestureType::RIGHT:
-            if (gestureHandler) gestureHandler->onRight();
+            if (gesture_handler_) gesture_handler_->onRight();
             break;
         case GestureType::FORWARD:
-            if (gestureHandler) gestureHandler->onForward();
+            if (gesture_handler_) gesture_handler_->onForward();
             break;
         case GestureType::BACKWARD:
-            if (gestureHandler) gestureHandler->onBackward();
+            if (gesture_handler_) gesture_handler_->onBackward();
             break;
         case GestureType::CLOCKWISE:
-            if (gestureHandler) gestureHandler->onClockwise();
+            if (gesture_handler_) gesture_handler_->onClockwise();
             break;
         case GestureType::ANTI_CLOCKWISE:
-            if (gestureHandler) gestureHandler->onAntiClockwise();
+            if (gesture_handler_) gesture_handler_->onAntiClockwise();
             break;
         case GestureType::WAVE:
-            if (gestureHandler) gestureHandler->onWave();
+            if (gesture_handler_) gesture_handler_->onWave();
             break;
         case GestureType::NONE:
         default:

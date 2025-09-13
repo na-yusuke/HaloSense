@@ -4,14 +4,14 @@
 
 #include "HaloSense.hpp"
 
-GestureDetector gestureDetector(400);
+GestureDetector gesture_detector(400);
 std::shared_ptr<HaloSense> handler;
 
 void setup() {
     Serial.begin(115200);
     handler = std::make_shared<HaloSense>();
 
-    if (gestureDetector.init()) {
+    if (gesture_detector.init()) {
         Serial.println("Please input your gestures:");
         Serial.println("UP/DOWN: Switch LED ON/OFF");
         Serial.println(
@@ -21,14 +21,14 @@ void setup() {
         Serial.println("GestureDetector initialization failed");
     }
 
-    gestureDetector.setGestureHandler(handler);
+    gesture_detector.setGestureHandler(handler);
 }
 
 void loop() {
-    // ジェスチャー処理の実行
-    gestureDetector.processGestures();
-    // 照度センサー値の読み取りとLEDの明るさ調整
+    // Execute gesture processing
+    gesture_detector.processGestures();
+    // Read ambient light sensor value and adjust LED brightness
     handler->adjustLedBrightnessByAmbientLight();
-    // LEDエフェクト更新
+    // Update LED effects
     handler->updateLed();
 }
