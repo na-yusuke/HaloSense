@@ -2,7 +2,7 @@
 
 Interactive LED System with Gesture Control
 
-<div><video controls src=/video/rainbow_flow.mp4 muted="true"></video></div>
+https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873
 
 ## 🌍 Environment
 
@@ -99,11 +99,25 @@ $ C:\Users\<user>\.platformio\penv\Scripts\platformio.exe device monitor --envir
 
 ### LED Effect Modes
 
-1. **RELAX** - Fixed green-yellow color
-2. **RAINBOW_FLOW** - Flowing rainbow effect
-3. **MULTI_TRAIL_FLOW** - Multiple light trails following effect
-4. **FIRE_EFFECT** - Flame-like flickering effect
-5. **WAVE_EFFECT** - Wave pattern effect
+#### RELAX - Fixed green-yellow color
+
+https://github.com/user-attachments/assets/98735359-6b4d-485f-8619-0da2b905b934
+
+#### RAINBOW_FLOW - Flowing rainbow effect
+
+https://github.com/user-attachments/assets/b540b3bd-d70b-45e4-98d5-3e798b2ce873
+
+#### MULTI_TRAIL_FLOW - Multiple light trails following effect
+
+https://github.com/user-attachments/assets/99d7cd5b-fad2-463a-b2bc-c7e4c578b8e0
+
+#### FIRE_EFFECT - Flame-like flickering effect
+
+https://github.com/user-attachments/assets/8895ab52-2fd1-48eb-9dab-5813eb820794
+
+#### WAVE_EFFECT - Wave pattern effect
+
+https://github.com/user-attachments/assets/32dad7a4-d0aa-4334-b5df-adb5c8f35909
 
 ## 📚 References
 
