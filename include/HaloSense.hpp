@@ -22,7 +22,7 @@ class HaloSense : public IGestureHandler {
         int32_t lumenValue = lumenMeter.readLumenValue();
         if (lumenValue == lastLumenValue) return;
         lastLumenValue = lumenValue;
-        ledController.setBrightness(map(lumenValue, 0, 1023, 30, 220));
+        ledController.setBrightness(map(lumenValue, 0, 1023, 50, 220));
     }
     void updateLed() { ledController.update(); }
 
